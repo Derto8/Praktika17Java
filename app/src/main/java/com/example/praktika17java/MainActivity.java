@@ -122,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
                     LinearLayout ll1 = findViewById(R.id.layoutIkra);
                     ll1.setVisibility(View.GONE);
                 }
+                ExitApp("Выход", "Вы действительно хотите выйти из приложения?");
             }
             else{
                 AlertDialog("Предупреждение", "Укажите ваш пол");
@@ -164,5 +165,49 @@ public class MainActivity extends AppCompatActivity {
     public void Ikra(View view){
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=zfUjxQexhjA"));
         startActivity(browserIntent);
+    }
+
+    @Override
+    public void onBackPressed(){
+        step--;
+
+        if(step != 7 && step > 1){
+            if(step == 2){
+                setContentView(R.layout.step_2);
+            } else if(step == 3){
+                setContentView(R.layout.step_3);
+            } else if (step == 4){
+                setContentView(R.layout.step_4);
+            } else if (step == 5){
+                setContentView(R.layout.step_5);
+            } else if(step == 6){
+                setContentView(R.layout.step_6);
+            }
+        } else ExitApp("Выход", "Вы действительно хотите выйти из приложения?");
+    }
+
+    public void ExitApp(String title, String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle(title)
+                .setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton("Да",
+                        new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        })
+                .setNegativeButton("Нет",
+                        new DialogInterface.OnClickListener(){
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }
